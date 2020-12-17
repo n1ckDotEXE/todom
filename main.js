@@ -49,7 +49,9 @@ const printTodo = function(todo) {
 
   // Give the li a `complete` class if the todo object indicates it was complete already. (Again, check the `todos.js` to see what the objects look like!)
 
-  li.classList = "complete";
+  if (todo.complete) {
+    li.classList.add('complete')
+  }
 
   // Give the <p> with the todo's text in it an event listener to toggle that todo's completeness.
   // This is quite a challenge, so feel free to come back to this one at the end!
@@ -66,18 +68,23 @@ const printTodo = function(todo) {
 
 // Now here in the global code, call the above function, so our todos array gets printed out on page load (which is when global code is run). This is the only time we're calling a function ourselves; the rest is event listeners and helper functions that run when the user interacts with the DOM!
 
-
-
+printTodos();
 
 // A function that clears all todos from the DOM. This is a great helper function for refreshing our todos.
 // Test it in the console and see if your list disappears!
-
-
+const clearTodos = function() {
+  const todos = document.querySelectorAll('.todo-item');
+  for (const todo of todos) {
+    todo.remove();
+  }
+}
 
 // Refresh our page by calling each of the two above functions. Since printing all todos onto the DOM is based on our todos array, if we make a change to our todos array, we can simply call this function, which will make our DOM match our todos array by simply clearing the page and repopulating it according to our todos' new state.
 
-
-
+const refreshTodos = function() {
+  clearTodos();
+  printTodos();
+}
 
 /*
 
@@ -90,7 +97,20 @@ Let's wire it all together. Add an event listener for the add todo button that w
 
 */
 
+document.querySelector('.add-todo').addEventListener('click', () => {
+  const inputBox = document.querySelector('.todo-input');
+  const todo = {
+    text: inputBox.value,
+    priority: 2,
+    complete: false,
+    id: todos.length,
+  }
 
+  addTodo(todo);
+  printTodo(todo);
+  inputBox.value = '';
+
+})
 
 /* 
 
